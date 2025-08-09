@@ -1,0 +1,59 @@
+<div class="transaction-page">
+  <div class="transaction-header">
+    <h2>Add Transaction</h2>
+  </div>
+
+  <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" class="transaction-form">
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-input">
+        <mat-label>ISIN</mat-label>
+        <input matInput placeholder="Enter ISIN" formControlName="isin">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-input">
+        <mat-label>Security Name / Symbol</mat-label>
+        <input matInput placeholder="Enter Security Name or Symbol" formControlName="securityName">
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-input">
+        <mat-label>Quantity</mat-label>
+        <input matInput type="number" placeholder="Enter Quantity" formControlName="quantity">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-input">
+        <mat-label>WAP</mat-label>
+        <input matInput type="number" placeholder="Enter WAP" formControlName="wap">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-input">
+        <mat-label>Brokerage Per Share</mat-label>
+        <input matInput type="number" placeholder="Enter Brokerage Per Share" formControlName="brokerage">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-input">
+        <mat-label>Total Buy / Sell Value</mat-label>
+        <input matInput type="number" placeholder="Enter Total Buy/Sell Value" formControlName="totalValue">
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-input">
+        <mat-label>Net Quantity</mat-label>
+        <input matInput type="number" placeholder="Enter Net Quantity" formControlName="netQuantity">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-input">
+        <mat-label>Net Obligation</mat-label>
+        <input matInput type="number" placeholder="Enter Net Obligation" formControlName="netObligation">
+      </mat-form-field>
+    </div>
+
+    <div class="form-actions">
+      <button mat-raised-button class="submit-btn" type="submit" [disabled]="transactionForm.invalid">
+        Submit Transaction
+      </button>
+    </div>
+  </form>
+</div>

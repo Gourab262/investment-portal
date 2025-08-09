@@ -1,0 +1,30 @@
+<aside class="dashboard-sidebar">
+  <nav class="sidebar-nav">
+    <ul>
+      <li class="sidebar-section">
+        <div class="section-title" (click)="toggleSection('portfolio')">
+          Portfolio
+          <span [class.open]="openSection === 'portfolio'">&#9662;</span>
+        </div>
+        @if (openSection === 'portfolio') {
+          <ul class="submenu">
+            <li><a routerLink="/portfolio">List</a></li>
+            <li><a routerLink="/portfolio/add">Add</a></li>
+          </ul>
+        }
+      </li>
+      <li class="sidebar-section">
+        <div class="section-title" (click)="toggleSection('transaction')">
+          Transaction
+          <span [class.open]="openSection === 'transaction'">&#9662;</span>
+        </div>
+        @if (openSection === 'transaction') {
+          <ul class="submenu">
+            <li><a routerLink="/transaction-list">List</a></li>
+            <li><a routerLink="/add-transaction">Add</a></li>
+          </ul>
+        }
+      </li>
+    </ul>
+  </nav>
+</aside>

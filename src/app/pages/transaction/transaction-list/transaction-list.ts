@@ -42,6 +42,6 @@ export class TransactionList implements OnInit {
   }
 
   editTransaction(id: string) {
-    this.router.navigate(['/edit-transaction', id]);
+    this.router.navigate(['/dashboard/edit-transaction', id]);
   }
 }

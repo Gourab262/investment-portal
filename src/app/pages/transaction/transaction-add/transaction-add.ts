@@ -3,7 +3,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FirebaseService } from '../../../services/firebase.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-transaction-add',
@@ -19,25 +19,26 @@ import { ActivatedRoute } from '@angular/router';
 export class TransactionAdd implements OnInit {
 
 
-    transactionForm!: FormGroup;
+  transactionForm!: FormGroup;
+  transactionId: any;
+  transactionData: any = {};
 
   constructor(
     private fb: FormBuilder,
     private firebaseService: FirebaseService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
-    const transactionId = this.route.snapshot.paramMap.get('id');
-    if (transactionId) {
-      this.firebaseService.getTransactionById(transactionId).then(transaction => {
-        console.log('Transaction data:', transaction);
-        
+    this.transactionId = this.route.snapshot.paramMap.get('id');
+    if (this.transactionId) {
+      this.firebaseService.getTransactionById(this.transactionId).then((transaction: any) => {
         this.transactionForm.patchValue(transaction);
       });
     }
   }
 
   ngOnInit(): void {
-        this.transactionForm = this.fb.group({
+    this.transactionForm = this.fb.group({
       isin: ['', Validators.required],
       securityName: ['', Validators.required],
       quantity: ['', [Validators.required, Validators.min(1)]],
@@ -50,17 +51,23 @@ export class TransactionAdd implements OnInit {
   }
 
 
-    onSubmit() {
+  onSubmit() {
     if (this.transactionForm.valid) {
       const formData = this.transactionForm.value;
-      this.firebaseService.addTransaction(formData)
-        .then(() => {
-          alert('Transaction added successfully!');
-          this.transactionForm.reset();
-        })
-        .catch(error => {
-          console.error('Error adding transaction: ', error);
+      if (this.transactionId) {
+        this.firebaseService.updateTransaction(this.transactionId, formData).then(() => {
+          this.router.navigate(['/dashboard/transaction-list']);
         });
+      } else {
+        this.firebaseService.addTransaction(formData)
+          .then(() => {
+            alert('Transaction added successfully!');
+            this.transactionForm.reset();
+          })
+          .catch(error => {
+            console.error('Error adding transaction: ', error);
+          });
+      }
     }
   }
 }

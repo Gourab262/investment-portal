@@ -50,10 +50,17 @@ export class FirebaseService {
     return collectionData(transactionRef, { idField: 'id' }) as Observable<any[]>;
   }
 
-  getTransactionById(id: string) {
-    const docRef = doc(this.firestore, `transaction-list/${id}`);
-    return getDoc(docRef);
-  }
+getTransactionById(id: string) {
+  const docRef = doc(this.firestore, `transaction-list/${id}`);
+  return getDoc(docRef).then(docSnap => {
+    if (docSnap.exists()) {
+      return { id: docSnap.id, ...docSnap.data() }; // include id if needed
+    } else {
+      return null; // or throw an error
+    }
+  });
+}
+
 
   addTransaction(data: any) {
     const transactionRef = collection(this.firestore, 'transaction-list');

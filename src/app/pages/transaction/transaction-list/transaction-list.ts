@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FirebaseService } from '../../../services/firebase.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-transaction-list',
-  imports: [],
+  imports: [CommonModule, RouterModule],
   templateUrl: './transaction-list.html',
   styleUrl: './transaction-list.scss'
 })
@@ -14,7 +15,8 @@ export class TransactionList implements OnInit {
 
   constructor(
     private firebaseService: FirebaseService,
-    public router: Router
+    public router: Router,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -27,6 +29,7 @@ export class TransactionList implements OnInit {
       if (this.transactions.length > 0) {
         this.tableColumns = Object.keys(this.transactions[0]).filter(k => k !== 'id');
       }
+      this.cdr.detectChanges();
     });
   }
 

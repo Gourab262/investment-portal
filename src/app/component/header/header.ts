@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FirebaseService } from '../../services/firebase.service';
 import { Router } from '@angular/router';
 
@@ -12,9 +12,10 @@ import { Router } from '@angular/router';
 export class Header {
   user: any = null;
 
-  constructor(private firebaseService: FirebaseService, private router: Router) {
+  constructor(private firebaseService: FirebaseService, private router: Router, private cdr: ChangeDetectorRef) {
     this.firebaseService.user$.subscribe(user => {
       this.user = user;
+      this.cdr.detectChanges();
     });
   }
 

@@ -3,18 +3,45 @@
   display: flex;
   flex-direction: column;
   background: linear-gradient(135deg, #f8faff 0%, #eef2f9 100%);
-  padding: 2rem;
+  padding: 32px;
   font-family: 'Inter', sans-serif;
+
+  /* FIX: Add left padding inside mat-input */
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding-left: 12px !important; /* Pushes placeholder and text away from left border */
+    border-top: none; /* Removes extra top space in outline */
+  }
+
+  ::ng-deep .mat-form-field-appearance-outline .mat-input-element {
+    padding-left: 0px !important; /* Prevents double padding */
+  }
+
+  /* Rounded border for all outline inputs */
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline,
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start,
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
+    border-radius: 6px;
+  }
+
+  /* Hover & focus effects for outline border */
+  ::ng-deep .mat-form-field-appearance-outline:hover .mat-form-field-outline-thick {
+    border-color: #3f51b5;
+  }
+
+  ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    border-color: #3f51b5;
+    box-shadow: 0 0 6px rgba(63, 81, 181, 0.3);
+  }
 }
 
 .transaction-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 24px;
 
   h2 {
-    font-size: 1.8rem;
+    font-size: 28px;
     font-weight: 700;
     color: #1a237e;
     letter-spacing: 0.5px;
@@ -25,8 +52,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  padding: 2rem;
+  gap: 24px;
+  padding: 32px;
   background: white;
   border-radius: 14px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
@@ -39,48 +66,56 @@
 
 .form-row {
   display: flex;
-  gap: 1.5rem;
+  gap: 24px;
   flex-wrap: wrap;
 }
 
 .form-input {
   flex: 1;
   min-width: 220px;
-}
 
-.mat-form-field {
-  width: 100%;
-  background: #fafafa;
-  border-radius: 8px;
-  padding: 0 0.5rem; /* Padding around the entire form field */
-
-  /* Fix left padding for input text */
- .mat-input-element {
-  padding-left: 10px !important; /* reset any extra left padding */
-}
-
-.mat-form-field-appearance-outline .mat-form-field-infix {
-  padding: 0.6em 0.75em !important; /* adds space on left & right */
-  border-top: none; /* removes unwanted top gap */
-}
-
-  .mat-form-field-label {
+  ::ng-deep .mat-form-field-label {
     font-weight: 500;
     color: #555;
+    transition: all 0.2s ease;
+  }
+
+  ::ng-deep .mat-form-field-should-float .mat-form-field-label {
+    color: #3f51b5;
+    font-weight: 600;
+  }
+
+  /* Optional: Icon inside input */
+  &.with-icon {
+    position: relative;
+
+    mat-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+      font-size: 20px;
+      pointer-events: none;
+    }
+
+    ::ng-deep .mat-input-element {
+      padding-left: 34px !important;
+    }
   }
 }
 
 .form-actions {
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 32px;
 }
 
 .submit-btn {
   background-color: #4caf50 !important;
   color: #fff;
-  font-size: 1rem;
-  padding: 0.8rem 2.2rem;
+  font-size: 16px;
+  padding: 13px 35px;
   font-weight: 600;
   border-radius: 8px;
   text-transform: none;

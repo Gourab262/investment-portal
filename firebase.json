@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/invesment_portal",
+    "public": "dist/invesment_portal/browser",
     "ignore": [
       "firebase.json",
       "**/.*",

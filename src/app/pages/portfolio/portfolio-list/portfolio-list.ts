@@ -17,7 +17,7 @@ interface Transaction {
   styleUrl: './portfolio-list.scss'
 })
 export class PortfolioList implements OnInit {
- investmentRates: Record<InvestmentKey, number> = {
+  investmentRates: Record<InvestmentKey, number> = {
     bankSavings: 5.0,
     potd: 6.7,
     nsc: 6.8,
@@ -49,25 +49,32 @@ export class PortfolioList implements OnInit {
   constructor(private firebaseService: FirebaseService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
+    this.loadPortfolioData();
+  }
+
+  loadPortfolioData() {
     this.firebaseService.getAllTransactions().subscribe({
       next: (transactions: Transaction[]) => {
         this.calculatePortfolioValues(transactions);
         this.calculateReturns();
         this.cdr.detectChanges();
       },
-      error: (err) => console.error(err)
+      error: (err) => console.error('Error loading portfolio data:', err)
     });
+  }
+
+  refreshData() {
+    this.loadPortfolioData();
   }
 
   calculatePortfolioValues(transactions: Transaction[]) {
     this.amountInvested = transactions.reduce((sum, t) => sum + (t.wap * t.quantity), 0);
     this.currentValue = transactions.reduce((sum, t) => sum + t.totalValue, 0);
-    
   }
 
   calculateReturns() {
     this.profitLoss = this.currentValue - this.amountInvested;
-    this.totalReturnPercent = (this.profitLoss / this.amountInvested) * 100;
+    this.totalReturnPercent = this.amountInvested > 0 ? (this.profitLoss / this.amountInvested) * 100 : 0;
 
     (Object.keys(this.investmentRates) as InvestmentKey[]).forEach(key => {
       this.alternatives[key] = this.amountInvested * (1 + (this.investmentRates[key] / 100));
@@ -93,6 +100,37 @@ export class PortfolioList implements OnInit {
   // Helper to safely access investment rates
   getInvestmentRate(key: string): number {
     return this.investmentRates[key as InvestmentKey] || 0;
+  }
+
+  // Performance Summary Methods
+  getBestAlternative(): string {
+    if (this.amountInvested === 0) return 'N/A';
+    
+    const alternativeEntries = Object.entries(this.alternatives);
+    const bestAlternative = alternativeEntries.reduce((best, current) => 
+      current[1] > best[1] ? current : best
+    );
+    
+    return this.getInvestmentName(bestAlternative[0]);
+  }
+
+  getPortfolioRank(): string {
+    if (this.amountInvested === 0) return 'N/A';
+    
+    const allValues = [this.currentValue, ...Object.values(this.alternatives)];
+    allValues.sort((a, b) => b - a);
+    const portfolioRank = allValues.indexOf(this.currentValue) + 1;
+    
+    return `${portfolioRank}/${allValues.length}`;
+  }
+
+  getAverageReturn(): number {
+    if (this.amountInvested === 0) return 0;
+    
+    const allRates = [this.totalReturnPercent, ...Object.values(this.investmentRates)];
+    const averageRate = allRates.reduce((sum, rate) => sum + rate, 0) / allRates.length;
+    
+    return averageRate;
   }
 }
 

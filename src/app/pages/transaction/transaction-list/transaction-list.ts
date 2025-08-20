@@ -33,6 +33,18 @@ export class TransactionList implements OnInit {
     });
   }
 
+  getTotalValue(): number {
+    return this.transactions.reduce((sum, t) => sum + (parseFloat(t.totalValue) || 0), 0);
+  }
+
+  getTotalQuantity(): number {
+    return this.transactions.reduce((sum, t) => sum + (parseInt(t.quantity) || 0), 0);
+  }
+
+  getTotalBrokerage(): number {
+    return this.transactions.reduce((sum, t) => sum + (parseFloat(t.brokerage) || 0), 0);
+  }
+
   deleteTransaction(id: string) {
     if (confirm('Are you sure you want to delete this transaction?')) {
       this.firebaseService.deleteTransaction(id).then(() => {

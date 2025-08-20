@@ -1,35 +1,191 @@
 <div class="portfolio-container">
-  <h2>Portfolio Overview</h2>
-
-  <div class="stats-grid">
-    <div class="stat-card">
-      <label>Amount Invested</label>
-      <span>{{ amountInvested | currency:'INR':'symbol' }}</span>
-    </div>
-    <div class="stat-card">
-      <label>Current Value</label>
-      <span>{{ currentValue | currency:'INR':'symbol' }}</span>
-    </div>
-    <div class="stat-card">
-      <label>P / L</label>
-      <span [class.profit]="profitLoss >= 0" [class.loss]="profitLoss < 0">
-        {{ profitLoss | currency:'INR':'symbol' }}
-      </span>
-    </div>
-    <div class="stat-card">
-      <label>Total Return % P.A.</label>
-      <span [class.profit]="totalReturnPercent >= 0" [class.loss]="totalReturnPercent < 0">
-        {{ totalReturnPercent | number:'1.2-2' }}%
-      </span>
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="header-content">
+      <div class="title-section">
+        <h1 class="page-title">
+          <svg class="title-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+          Portfolio Overview
+        </h1>
+        <p class="subtitle">Track your investment performance and compare with alternatives</p>
+      </div>
+      <div class="header-actions">
+        <button class="refresh-btn" (click)="refreshData()" title="Refresh Data">
+          <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+          Refresh
+        </button>
+      </div>
     </div>
   </div>
 
-  <h3>Alternative Investments (1 Year)</h3>
-  <div class="alternatives-grid">
-    <div class="alt-card" *ngFor="let item of (alternatives | keyvalue)">
-      <label>{{ getInvestmentName(item.key) }}</label>
-      <span>{{ item.value | currency:'INR':'symbol' }}</span>
-      <small>{{ getInvestmentRate(item.key) }}% p.a.</small>
+  <!-- Content Section -->
+  <div class="content-section">
+    <!-- Portfolio Performance Cards -->
+    <div class="performance-section">
+      <div class="section-header">
+        <div class="section-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+          </svg>
+        </div>
+        <h2 class="section-title">Portfolio Performance</h2>
+        <span class="section-subtitle">Real-time investment tracking</span>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon invested">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <h3 class="stat-value">{{ amountInvested | currency:'INR' }}</h3>
+            <p class="stat-label">Amount Invested</p>
+            <div class="stat-trend">
+              <svg class="trend-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+              </svg>
+              <span>Total Investment</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon current">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <h3 class="stat-value">{{ currentValue | currency:'INR' }}</h3>
+            <p class="stat-label">Current Value</p>
+            <div class="stat-trend">
+              <svg class="trend-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+              <span>Market Value</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" [class]="profitLoss >= 0 ? 'profit' : 'loss'">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <h3 class="stat-value" [class]="profitLoss >= 0 ? 'profit' : 'loss'">
+              {{ profitLoss | currency:'INR' }}
+            </h3>
+            <p class="stat-label">Profit / Loss</p>
+            <div class="stat-trend" [class]="profitLoss >= 0 ? 'profit' : 'loss'">
+              <svg class="trend-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+              </svg>
+              <span>{{ profitLoss >= 0 ? 'Gain' : 'Loss' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" [class]="totalReturnPercent >= 0 ? 'profit' : 'loss'">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <h3 class="stat-value" [class]="totalReturnPercent >= 0 ? 'profit' : 'loss'">
+              {{ totalReturnPercent | number:'1.2-2' }}%
+            </h3>
+            <p class="stat-label">Total Return % P.A.</p>
+            <div class="stat-trend" [class]="totalReturnPercent >= 0 ? 'profit' : 'loss'">
+              <svg class="trend-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+              </svg>
+              <span>Annual Return</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alternative Investments Section -->
+    <div class="alternatives-section">
+      <div class="section-header">
+        <div class="section-icon alternatives">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+        </div>
+        <h2 class="section-title">Alternative Investments (1 Year)</h2>
+        <span class="section-subtitle">Compare with traditional investment options</span>
+      </div>
+
+      <div class="alternatives-grid">
+        <div class="alt-card" *ngFor="let item of (alternatives | keyvalue)">
+          <div class="alt-header">
+            <div class="alt-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+              </svg>
+            </div>
+            <div class="alt-info">
+              <h3 class="alt-name">{{ getInvestmentName(item.key) }}</h3>
+              <p class="alt-rate">{{ getInvestmentRate(item.key) }}% p.a.</p>
+            </div>
+          </div>
+          <div class="alt-value">
+            <span class="value-amount">{{ item.value | currency:'INR' }}</span>
+            <div class="value-comparison">
+              <span class="comparison-label">vs Portfolio</span>
+              <span class="comparison-diff" [class]="item.value > currentValue ? 'better' : 'worse'">
+                {{ ((item.value - currentValue) / currentValue * 100) | number:'1.2-2' }}%
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance Summary -->
+    <div class="summary-section" *ngIf="amountInvested > 0">
+      <div class="section-header">
+        <div class="section-icon summary">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+        </div>
+        <h2 class="section-title">Performance Summary</h2>
+      </div>
+
+      <div class="summary-content">
+        <div class="summary-card">
+          <div class="summary-header">
+            <h3>Portfolio vs Alternatives</h3>
+            <p>How your portfolio performs against traditional investments</p>
+          </div>
+          <div class="summary-stats">
+            <div class="summary-stat">
+              <span class="stat-number">{{ getBestAlternative() }}</span>
+              <span class="stat-label">Best Alternative</span>
+            </div>
+            <div class="summary-stat">
+              <span class="stat-number">{{ getPortfolioRank() }}</span>
+              <span class="stat-label">Portfolio Rank</span>
+            </div>
+            <div class="summary-stat">
+              <span class="stat-number">{{ getAverageReturn() | number:'1.2-2' }}%</span>
+              <span class="stat-label">Average Return</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

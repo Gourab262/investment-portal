@@ -1,59 +1,243 @@
-<div class="transaction-page">
-  <div class="transaction-header">
-    <h2>Add Transaction</h2>
-  </div>
-
-  <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" class="transaction-form">
-    <div class="form-row">
-      <mat-form-field appearance="outline" class="form-input">
-        <mat-label>ISIN</mat-label>
-        <input matInput placeholder="Enter ISIN" formControlName="isin">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="form-input">
-        <mat-label>Security Name / Symbol</mat-label>
-        <input matInput placeholder="Enter Security Name or Symbol" formControlName="securityName">
-      </mat-form-field>
-    </div>
-
-    <div class="form-row">
-      <mat-form-field appearance="outline" class="form-input">
-        <mat-label>Quantity</mat-label>
-        <input matInput type="number" placeholder="Enter Quantity" formControlName="quantity">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="form-input">
-        <mat-label>WAP</mat-label>
-        <input matInput type="number" placeholder="Enter WAP" formControlName="wap">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="form-input">
-        <mat-label>Brokerage Per Share</mat-label>
-        <input matInput type="number" placeholder="Enter Brokerage Per Share" formControlName="brokerage">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="form-input">
-        <mat-label>Total Buy / Sell Value</mat-label>
-        <input matInput type="number" placeholder="Enter Total Buy/Sell Value" formControlName="totalValue">
-      </mat-form-field>
-    </div>
-
-    <div class="form-row">
-      <mat-form-field appearance="outline" class="form-input">
-        <mat-label>Net Quantity</mat-label>
-        <input matInput type="number" placeholder="Enter Net Quantity" formControlName="netQuantity">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="form-input">
-        <mat-label>Net Obligation</mat-label>
-        <input matInput type="number" placeholder="Enter Net Obligation" formControlName="netObligation">
-      </mat-form-field>
-    </div>
-
-    <div class="form-actions">
-      <button mat-raised-button class="submit-btn" type="submit" [disabled]="transactionForm.invalid">
-        Submit Transaction
+<div class="transaction-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="header-content">
+      <div class="title-section">
+        <h1 class="page-title">
+          <svg class="title-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          Add New Transaction
+        </h1>
+        <p class="subtitle">Enter transaction details to track your investment</p>
+      </div>
+      <button class="back-btn" routerLink="/dashboard/transaction-list">
+        <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Back to List
       </button>
     </div>
-  </form>
+  </div>
+
+  <!-- Form Section -->
+  <div class="form-section">
+    <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" class="transaction-form">
+      
+      <!-- Basic Information Section -->
+      <div class="form-section-card">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </div>
+          <h2 class="section-title">Basic Information</h2>
+        </div>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-text">ISIN</span>
+              <span class="label-hint">International Securities Identification Number</span>
+            </label>
+            <input 
+              type="text" 
+              class="form-input" 
+              placeholder="e.g., INE002A01018"
+              formControlName="isin"
+              maxlength="12"
+              [class.error]="transactionForm.get('isin')?.invalid && transactionForm.get('isin')?.touched"
+            >
+            <div class="input-hint">12-character alphanumeric code</div>
+            <div class="error-message" *ngIf="transactionForm.get('isin')?.invalid && transactionForm.get('isin')?.touched">
+              ISIN is required and must be 12 characters
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-text">Security Name</span>
+              <span class="label-hint">Company or security name</span>
+            </label>
+            <input 
+              type="text" 
+              class="form-input" 
+              placeholder="e.g., Reliance Industries Limited"
+              formControlName="securityName"
+              [class.error]="transactionForm.get('securityName')?.invalid && transactionForm.get('securityName')?.touched"
+            >
+            <div class="error-message" *ngIf="transactionForm.get('securityName')?.invalid && transactionForm.get('securityName')?.touched">
+              Security name is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-text">Symbol</span>
+              <span class="label-hint">Stock symbol (UPPERCASE)</span>
+            </label>
+            <input 
+              type="text" 
+              class="form-input" 
+              placeholder="e.g., RELIANCE"
+              formControlName="symbol"
+              (input)="onSymbolInput($event)"
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Transaction Details Section -->
+      <div class="form-section-card">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <h2 class="section-title">Transaction Details</h2>
+        </div>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-text">Quantity</span>
+              <span class="label-hint">Total number of shares</span>
+            </label>
+            <input 
+              type="number" 
+              class="form-input" 
+              placeholder="e.g., 100"
+              formControlName="quantity"
+              min="1"
+              (input)="calculateValues()"
+              [class.error]="transactionForm.get('quantity')?.invalid && transactionForm.get('quantity')?.touched"
+            >
+            <div class="error-message" *ngIf="transactionForm.get('quantity')?.invalid && transactionForm.get('quantity')?.touched">
+              Quantity must be a positive number
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-text">WAP (Weighted Average Price)</span>
+              <span class="label-hint">Average price per share</span>
+            </label>
+            <input 
+              type="number" 
+              class="form-input" 
+              placeholder="e.g., 1421.5486"
+              formControlName="wap"
+              step="0.0001"
+              (input)="calculateValues()"
+              [class.error]="transactionForm.get('wap')?.invalid && transactionForm.get('wap')?.touched"
+            >
+            <div class="error-message" *ngIf="transactionForm.get('wap')?.invalid && transactionForm.get('wap')?.touched">
+              WAP is required and must be positive
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-text">Brokerage Per Share</span>
+              <span class="label-hint">Brokerage cost per share</span>
+            </label>
+            <input 
+              type="number" 
+              class="form-input" 
+              placeholder="e.g., 5.5682"
+              formControlName="brokerage"
+              step="0.0001"
+              (input)="calculateValues()"
+              [class.error]="transactionForm.get('brokerage')?.invalid && transactionForm.get('brokerage')?.touched"
+            >
+            <div class="error-message" *ngIf="transactionForm.get('brokerage')?.invalid && transactionForm.get('brokerage')?.touched">
+              Brokerage is required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calculated Values Section -->
+      <div class="form-section-card calculated-section">
+        <div class="section-header">
+          <div class="section-icon calculated">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+          </div>
+          <h2 class="section-title">Calculated Values</h2>
+          <span class="section-subtitle">Auto-calculated based on your inputs</span>
+        </div>
+        
+        <div class="form-grid">
+          <div class="form-group calculated">
+            <label class="form-label">
+              <span class="label-text">Total Buy / Sell Value</span>
+              <span class="label-hint">(WAP + Brokerage) × Quantity</span>
+            </label>
+            <div class="calculated-input">
+              <span class="currency-symbol">₹</span>
+              <input 
+                type="number" 
+                class="form-input" 
+                formControlName="totalValue"
+                readonly
+              >
+            </div>
+            <div class="calculation-formula">
+              Formula: ({{ transactionForm.get('wap')?.value || 0 }} + {{ transactionForm.get('brokerage')?.value || 0 }}) × {{ transactionForm.get('quantity')?.value || 0 }}
+            </div>
+          </div>
+
+          <div class="form-group calculated">
+            <label class="form-label">
+              <span class="label-text">Net Quantity</span>
+              <span class="label-hint">Total net quantity</span>
+            </label>
+            <input 
+              type="number" 
+              class="form-input" 
+              formControlName="netQuantity"
+              readonly
+            >
+          </div>
+
+          <div class="form-group calculated">
+            <label class="form-label">
+              <span class="label-text">Net Obligation</span>
+              <span class="label-hint">Total net obligation</span>
+            </label>
+            <div class="calculated-input">
+              <span class="currency-symbol">₹</span>
+              <input 
+                type="number" 
+                class="form-input" 
+                formControlName="netObligation"
+                readonly
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="resetForm()">
+          <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+          Reset Form
+        </button>
+        <button type="submit" class="btn-primary" [disabled]="transactionForm.invalid || isSubmitting">
+          <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" *ngIf="!isSubmitting">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <div class="spinner" *ngIf="isSubmitting"></div>
+          {{ isSubmitting ? 'Saving...' : 'Save Transaction' }}
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

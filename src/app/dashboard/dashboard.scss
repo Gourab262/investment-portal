@@ -1,57 +1,209 @@
 :host {
   height: 100vh;
-}
-
-app-sidebar {
-  width: 250px;
-  background: #222;
-}
-
-.main-content {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-router-outlet {
   display: block;
-  flex: 1;
-  padding: 1rem;
-  margin-left: 30px;
 }
 
 .dashboard-container {
   display: flex;
   min-height: 100vh;
-  background: #f9fafb;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  position: relative;
+  overflow-x: hidden;
+  transition: all 0.3s ease;
+
+  &.sidebar-collapsed {
+    .sidebar {
+      width: 100px;
+    }
+
+    .content-area {
+      margin-left: 0;
+    }
+  }
 }
 
 .sidebar {
-  width: 240px;
-  background: #fff;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.04);
-  z-index: 10;
+  width: 280px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 100;
+  background: transparent;
+  box-shadow: none;
+  transition: width 0.3s ease;
 }
 
 .main-content {
   flex: 1;
-  padding: 2rem;
-  background: #f9fafb;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
   position: relative;
+  background: transparent;
+  padding: 0;
+  margin-left: 0;
 }
 
-@media (max-width: 900px) {
+.content-area {
+  flex: 1;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: margin-left 0.3s ease;
+  
+  // Add top margin to account for fixed header
+  margin-top: 80px;
+  
+  // Ensure content doesn't overlap with header
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent);
+  }
+}
+
+// Global styles for router-outlet content
+::ng-deep router-outlet + * {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+// Ensure all child components have proper spacing
+::ng-deep .dashboard-container > * {
+  box-sizing: border-box;
+}
+
+// Responsive Design
+@media (max-width: 1200px) {
+  .sidebar {
+    width: 260px;
+  }
+
+  .dashboard-container.sidebar-collapsed {
+    .sidebar {
+      width: 90px;
+    }
+
+    .content-area {
+      margin-left: 0;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 240px;
+  }
+
+  .dashboard-container.sidebar-collapsed {
+    .sidebar {
+      width: 80px;
+    }
+
+    .content-area {
+      margin-left: 0;
+    }
+  }
+}
+
+@media (max-width: 768px) {
   .dashboard-container {
     flex-direction: column;
+
+    &.sidebar-collapsed {
+      .sidebar {
+        width: 100%;
+      }
+
+      .content-area {
+        margin-left: 0;
+      }
+    }
   }
+  
   .sidebar {
     width: 100%;
-    box-shadow: none;
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    
+    &.open {
+      transform: translateX(0);
+    }
   }
+  
   .main-content {
-    padding: 1rem;
+    width: 100%;
+    margin-left: 0;
   }
+  
+  .content-area {
+    margin-top: 60px;
+    padding: 0;
+    margin-left: 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-area {
+    margin-top: 50px;
+  }
+}
+
+// Scrollbar Styling for content area
+.content-area::-webkit-scrollbar {
+  width: 6px;
+}
+
+.content-area::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+}
+
+.content-area::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  transition: background 0.3s ease;
+  
+  &:hover {
+    background: rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Ensure proper z-index stacking
+.sidebar {
+  z-index: 100;
+}
+
+.main-content {
+  z-index: 1;
+}
+
+// Loading state
+.dashboard-container.loading {
+  opacity: 0.7;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+// Smooth transitions for all interactive elements
+* {
+  transition: all 0.3s ease;
+}
+
+// Ensure proper box-sizing
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 

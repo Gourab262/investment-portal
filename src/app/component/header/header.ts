@@ -1,7 +1,9 @@
-import { ChangeDetectorRef, Component, inject, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { FirebaseService } from '../../services/firebase.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { SidebarService } from '../../services/sidebar.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -11,18 +13,35 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule]
 })
 
-export class Header {
+export class Header implements OnInit, OnDestroy {
   user: any = null;
   isMenuOpen: boolean = false;
+  isSidebarOpen: boolean = true;
   private firebaseService = inject(FirebaseService);
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
+  private sidebarService = inject(SidebarService);
+  private destroy$ = new Subject<void>();
 
   constructor() {
     this.firebaseService.user$.subscribe(user => {
       this.user = user;
       this.cdr.detectChanges();
     });
+  }
+
+  ngOnInit() {
+    this.sidebarService.isOpen$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(isOpen => {
+        this.isSidebarOpen = isOpen;
+        this.cdr.detectChanges();
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   @HostListener('document:click', ['$event'])

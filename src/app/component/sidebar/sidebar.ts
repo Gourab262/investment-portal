@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { SidebarService } from '../../services/sidebar.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,10 +11,31 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule] 
 })
-export class Sidebar {
-  openSection: string | null = null;
+export class Sidebar implements OnInit, OnDestroy {
+  isOpen: boolean = true;
+  private destroy$ = new Subject<void>();
 
-  toggleSection(section: string) {
-    this.openSection = this.openSection === section ? null : section;
+  constructor(private sidebarService: SidebarService) {}
+
+  ngOnInit() {
+    // Ensure sidebar starts open
+    if (!this.sidebarService.isOpen) {
+      this.sidebarService.open();
+    }
+
+    this.sidebarService.isOpen$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(isOpen => {
+        this.isOpen = isOpen;
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  toggleSidebar() {
+    this.sidebarService.toggle();
   }
 }

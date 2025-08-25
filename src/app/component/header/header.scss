@@ -9,12 +9,19 @@
   z-index: 1000;
   position: fixed;
   top: 0;
-  left: 0;
+  left: 280px;
   right: 0;
-  width: 100%;
+  width: calc(100% - 280px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   margin: 0;
+  transition: left 0.3s ease, width 0.3s ease;
+
+  // When sidebar is collapsed, adjust header position and width
+  &.sidebar-collapsed {
+    left: 100px;
+    width: calc(100% - 100px);
+  }
 
   h1 {
     font-size: 1.5rem;
@@ -40,7 +47,7 @@
 .header-left {
   display: flex;
   align-items: center;
-  margin-left: -11rem;
+  margin-left: -8rem;
 }
 
 .logo-section {
@@ -305,9 +312,23 @@
 }
 
 // Responsive Design
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
+  .dashboard-header {
+    &.sidebar-collapsed {
+      left: 70px;
+      width: calc(100% - 70px);
+    }
+  }
+}
+
+@media (max-width: 1024px) {
   .dashboard-header {
     padding: 0.5rem 1rem;
+
+    &.sidebar-collapsed {
+      left: 60px;
+      width: calc(100% - 60px);
+    }
 
     h1 {
       font-size: 1.25rem;
@@ -371,9 +392,11 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .dashboard-header {
     padding: 0.5rem;
+    left: 0 !important;
+    width: 100% !important;
 
     h1 {
       font-size: 1.125rem;
@@ -395,6 +418,16 @@
         width: 18px;
         height: 18px;
       }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-header {
+    padding: 0.5rem;
+
+    h1 {
+      font-size: 1rem;
     }
   }
 }

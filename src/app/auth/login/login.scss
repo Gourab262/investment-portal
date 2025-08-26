@@ -1,7 +1,9 @@
 // Variables
-$primary-color: #1976d2;
-$text-color: #333;
-$border-color: #ddd;
+$primary-color: #0A2540;
+$secondary-color: #C9A227;
+$text-color: #1E1E1E;
+$border-color: #D1D5DB;
+$background-color: #F5F5F5;
 $shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
 // Container
@@ -10,8 +12,9 @@ $shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background-color: $background-color;
   padding: 20px;
+  font-family: 'Inter', sans-serif;
 }
 
 // Card
@@ -30,12 +33,26 @@ $shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 }
 
+// Logo section
+.logo-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  
+  .login-logo {
+    width: 180px;
+    height: auto;
+  }
+}
+
 // Title
 .signin-title {
-  color: $text-color;
+  color: $primary-color;
   text-align: center;
   margin-bottom: 2rem;
   font-size: 1.8rem;
+  font-family: 'Roboto Slab', serif;
+  font-weight: 700;
 }
 
 // Form
@@ -52,21 +69,23 @@ $shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 label {
-  font-weight: 500;
-  color: $text-color;
+  font-weight: 600;
+  color: $primary-color;
+  font-family: 'Roboto Slab', serif;
 }
 
 .form-input {
   padding: 0.8rem;
   border: 1px solid $border-color;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 1rem;
   transition: border-color 0.3s;
+  font-family: 'Inter', sans-serif;
 
   &:focus {
     outline: none;
-    border-color: $primary-color;
-    box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+    border-color: $secondary-color;
+    box-shadow: 0 0 0 2px rgba($secondary-color, 0.2);
   }
 }
 
@@ -76,17 +95,25 @@ label {
   color: white;
   padding: 0.8rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-family: 'Roboto Slab', serif;
+  transition: all 0.3s ease;
 
   &:hover {
-    background-color: darken($primary-color, 10%);
+    background-color: $secondary-color;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba($secondary-color, 0.3);
   }
 
   &:active {
     transform: scale(0.98);
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
   }
 }

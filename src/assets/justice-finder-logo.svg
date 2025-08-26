@@ -1,0 +1,22 @@
+<svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Scales of Justice Icon -->
+  <g transform="translate(8, 8)">
+    <!-- Balance beam -->
+    <rect x="10" y="11" width="20" height="2" fill="#C9A227" rx="1"/>
+    <!-- Center post -->
+    <rect x="19" y="5" width="2" height="20" fill="#C9A227" rx="1"/>
+    <!-- Left scale -->
+    <circle cx="12" cy="18" r="6" stroke="#C9A227" stroke-width="1.5" fill="none"/>
+    <path d="M6 18 L18 18" stroke="#C9A227" stroke-width="1"/>
+    <!-- Right scale -->
+    <circle cx="28" cy="18" r="6" stroke="#C9A227" stroke-width="1.5" fill="none"/>
+    <path d="M22 18 L34 18" stroke="#C9A227" stroke-width="1"/>
+    <!-- Chains -->
+    <path d="M12 12 L12 15" stroke="#C9A227" stroke-width="1"/>
+    <path d="M28 12 L28 15" stroke="#C9A227" stroke-width="1"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="50" y="16" font-family="Roboto Slab, serif" font-size="12" font-weight="700" fill="#C9A227">JUSTICE</text>
+  <text x="50" y="28" font-family="Roboto Slab, serif" font-size="12" font-weight="700" fill="#0A2540">FINDER</text>
+</svg>

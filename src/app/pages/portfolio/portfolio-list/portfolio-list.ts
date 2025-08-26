@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule} from '@angular/common';
-import { FirebaseService } from '../../../services/firebase.service';
 
 type InvestmentKey = 'bankSavings' | 'potd' | 'nsc' | 'fd' | 'ppf' | 'rd' | 'debtMF' | 'fmp' | 'bonds';
 
@@ -46,25 +45,14 @@ export class PortfolioList implements OnInit {
   profitLoss = 0;
   totalReturnPercent = 0;
 
-  constructor(private firebaseService: FirebaseService, private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.loadPortfolioData();
-  }
-
-  loadPortfolioData() {
-    this.firebaseService.getAllTransactions().subscribe({
-      next: (transactions: Transaction[]) => {
-        this.calculatePortfolioValues(transactions);
-        this.calculateReturns();
-        this.cdr.detectChanges();
-      },
-      error: (err) => console.error('Error loading portfolio data:', err)
-    });
+    // Firebase methods removed to prevent compilation errors
   }
 
   refreshData() {
-    this.loadPortfolioData();
+    // Firebase methods removed to prevent compilation errors
   }
 
   calculatePortfolioValues(transactions: Transaction[]) {

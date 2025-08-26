@@ -1,6 +1,6 @@
 .portfolio-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--primary-navy) 0%, #1e293b 100%);
   padding: 2rem;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -114,7 +114,7 @@
   width: 3rem;
   height: 3rem;
   border-radius: 12px;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  background: linear-gradient(135deg, var(--secondary-gold), #B8941F);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -127,11 +127,11 @@
   }
 
   &.alternatives {
-    background: linear-gradient(135deg, #10b981, #059669);
+    background: linear-gradient(135deg, var(--primary-navy), #1e293b);
   }
 
   &.summary {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
+    background: linear-gradient(135deg, var(--secondary-gold), #B8941F);
   }
 }
 
@@ -187,11 +187,11 @@
   }
 
   &.invested {
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
   }
 
   &.current {
-    background: linear-gradient(135deg, #10b981, #059669);
+    background: linear-gradient(135deg, #0f172a, #1e293b);
   }
 
   &.profit {

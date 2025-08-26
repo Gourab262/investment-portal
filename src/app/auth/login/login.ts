@@ -35,7 +35,7 @@ export class Login {
 
     try {
       await this.firebaseService.signIn(this.email, this.password);
-      this.router.navigate(['/dashboard/transaction-list']);
+      this.router.navigate(['/dashboard/user-management']);
     } catch (error: any) {
       this.errorMessage = error.message || 'Login failed. Please try again.';
     } finally {

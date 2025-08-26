@@ -1,5 +1,5 @@
 .dashboard-header {
-  background: linear-gradient(135deg, rgba(40, 53, 147, 0.95), rgba(26, 35, 126, 0.95));
+  background: var(--primary-navy);
   backdrop-filter: blur(10px);
   color: #fff;
   padding: 0.75rem 2rem;
@@ -21,7 +21,7 @@
     font-weight: 700;
     letter-spacing: 0.5px;
     margin: 0;
-    background: linear-gradient(135deg, #fff, #e3f2fd);
+    background: linear-gradient(135deg, var(--secondary-gold), #B8941F);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -49,26 +49,17 @@
   gap: 0.75rem;
 
   .logo-icon {
-    width: 40px;
+    width: 120px;
     height: 40px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    color: #fff;
-    transition: all 0.3s ease;
-
-    &:hover {
-      transform: scale(1.05);
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
-    }
-
-    svg {
-      width: 24px;
-      height: 24px;
+    margin-right: 1rem;
+    
+    .logo-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
   }
 }
@@ -215,7 +206,7 @@
 
   .menu-header {
     padding: 1.5rem 1.5rem 1rem;
-    background: linear-gradient(135deg, rgba(40, 53, 147, 0.1), rgba(26, 35, 126, 0.1));
+    background: linear-gradient(135deg, rgba(10, 37, 64, 0.1), rgba(30, 41, 59, 0.1));
 
     .menu-user-info {
       display: flex;
@@ -237,8 +228,9 @@
         .menu-user-name {
           font-size: 1rem;
           font-weight: 600;
-          color: #1a237e;
+          color: var(--primary-navy);
           line-height: 1.2;
+          font-family: 'Roboto Slab', serif;
         }
 
         .menu-user-email {
@@ -272,8 +264,8 @@
     cursor: pointer;
 
     &:hover {
-      background: rgba(40, 53, 147, 0.08);
-      color: #1a237e;
+      background: rgba(10, 37, 64, 0.08);
+      color: var(--primary-navy);
     }
 
     .menu-icon {
@@ -282,7 +274,7 @@
     }
 
     &:hover .menu-icon {
-      color: #1a237e;
+      color: var(--primary-navy);
     }
 
     &.signout-item {

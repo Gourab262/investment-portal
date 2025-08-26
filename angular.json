@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "invesment_portal": {
+    "justice-finder": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -64,10 +64,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "invesment_portal:build:production"
+              "buildTarget": "justice-finder:build:production"
             },
             "development": {
-              "buildTarget": "invesment_portal:build:development"
+              "buildTarget": "justice-finder:build:development"
             }
           },
           "defaultConfiguration": "development"

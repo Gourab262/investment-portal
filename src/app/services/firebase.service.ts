@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, user } from '@angular/fire/auth';
-import { Firestore, collection, doc, setDoc, getDoc, getDocs, query, where, orderBy, limit, addDoc, updateDoc, deleteDoc, collectionData } from '@angular/fire/firestore';
-import { Storage, ref, uploadBytes, getDownloadURL, deleteObject } from '@angular/fire/storage';
-import { Observable, from } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Auth, signInWithEmailAndPassword, signOut, user } from '@angular/fire/auth';
+import { Firestore, collection, doc, getDoc, getDocs, collectionData } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 import { User as FirebaseUser } from '@angular/fire/auth';
 
 
@@ -19,8 +17,7 @@ export class FirebaseService {
 
   constructor(
     private auth: Auth,
-    private firestore: Firestore,
-    private storage: Storage
+    private firestore: Firestore
   ) {
     this.user$ = user(this.auth);
   }
@@ -45,36 +42,20 @@ export class FirebaseService {
     }
   }
 
-   getAllTransactions(): Observable<any[]> {
-    const transactionRef = collection(this.firestore, 'transaction-list');
-    return collectionData(transactionRef, { idField: 'id' }) as Observable<any[]>;
+  // User collection methods
+  getAllUsers(): Observable<any[]> {
+    const userRef = collection(this.firestore, 'user');
+    return collectionData(userRef, { idField: 'id' }) as Observable<any[]>;
   }
 
-getTransactionById(id: string) {
-  const docRef = doc(this.firestore, `transaction-list/${id}`);
-  return getDoc(docRef).then(docSnap => {
+  async getUserById(id: string) {
+    const docRef = doc(this.firestore, `user/${id}`);
+    const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      return { id: docSnap.id, ...docSnap.data() }; // include id if needed
+      return { id: docSnap.id, ...docSnap.data() };
     } else {
-      return null; // or throw an error
+      return null;
     }
-  });
-}
-
-
-  addTransaction(data: any) {
-    const transactionRef = collection(this.firestore, 'transaction-list');
-    return addDoc(transactionRef, data);
-  }
-
-  updateTransaction(id: string, data: any) {
-    const docRef = doc(this.firestore, `transaction-list/${id}`);
-    return updateDoc(docRef, data);
-  }
-
-  deleteTransaction(id: string) {
-    const docRef = doc(this.firestore, `transaction-list/${id}`);
-    return deleteDoc(docRef);
   }
 
 }
